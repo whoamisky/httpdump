@@ -318,6 +318,13 @@ func (h *HTTPTrafficHandler) printNormalRequest(req *httpport.Request) {
 		return
 	}
 
+	if h.option.Level == "header" {
+		h.writeLine(strings.Repeat("*", 10), " REQUEST ", h.key.srcString(), " -----> ", h.key.dstString(), " // ", h.startTime.Format(time.RFC3339Nano))
+		h.writeLine(req.Method, req.RequestURI, req.Proto)
+		h.printHeader(req.Header)
+		return
+	}
+
 	h.writeLine()
 	h.writeLine(strings.Repeat("*", 10), " REQUEST ", h.key.srcString(), " -----> ", h.key.dstString(), " // ", h.startTime.Format(time.RFC3339Nano))
 
@@ -359,9 +366,10 @@ func (h *HTTPTrafficHandler) printNormalRequest(req *httpport.Request) {
 // print http response
 func (h *HTTPTrafficHandler) printResponse(uri string, resp *httpport.Response) {
 	defer discardAll(resp.Body)
-	if h.option.Level == "url" {
+	if h.option.Level == "url" || h.option.Level == "request" || h.option.Level == "header" {
 		return
 	}
+
 
 	h.writeLine(strings.Repeat("*", 10), " RESPONSE ", h.key.srcString(), " <----- ", h.key.dstString(), " // ", h.startTime.Format(time.RFC3339Nano), "-", h.endTime.Format(time.RFC3339Nano), "=", h.endTime.Sub(h.startTime).String())
 

@@ -98,7 +98,7 @@ type Option struct {
 func main() {
 
 	var o = &Option{}
-	flag.StringVar(&o.Level, "level", "header", "Output level, options are: url(only url) | header(http headers) | all(headers, and textuary http body)")
+	flag.StringVar(&o.Level, "level", "request", "Output level, options are: url(only url) | header(only request headers) | request(request headers and body) | all(headers, and textuary http body)")
 	flag.StringVar(&o.File, "file", "", "Read from pcap file. If not set, will capture data from network device by default")
 	flag.StringVar(&o.Device, "device", "any", "Capture packet from network device. If is any, capture all interface traffics")
 	flag.StringVar(&o.Ip, "ip", "", "Filter by ip, if either source or target ip is matched, the packet will be processed")
